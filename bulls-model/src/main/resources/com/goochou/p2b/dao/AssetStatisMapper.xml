@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goochou.p2b.dao.AssetStatisMapper">
+
+<select id="selectAssetStatisByTermAndRelease" parameterType="map" resultType="map">
+	SELECT 
+		p.limit_days AS limitDays, 
+		COUNT(*) as totalCount, 
+		FORMAT(IFNULL(SUM(p.total_amount),0),2) AS totalAmount
+	FROM project p
+	where 1=1 
+	
+	<!-- 设定为新的标 -->
+	and p.lend_begin_time is not null
+	
+	<!-- 标的状态为创建中 -->
+	and  p.`status`=0
+	
+	<!-- 标固定为定期标 -->
+	and  p.project_type=0
+	
+	<if test="limitDaysList != null">
+		and p.limit_days in
+		<foreach collection="limitDaysList" index="index" item="item" open="(" separator="," close=")"> 
+			#{item}
+		</foreach>
+	</if>
+	
+	<if test="delay != null">
+		<![CDATA[
+			and date(p.lend_begin_time) < date(NOW()) 
+		]]>
+			and  p.`status`=0
+	</if>
+	
+	<if test="startTime != null">
+		and p.lend_begin_time >= str_to_date(concat(#{startTime,jdbcType=VARCHAR},' 00:00:00'),'%Y-%m-%d %H:%i:%s')
+	</if>
+	
+	<if test="endTime != null">
+		<![CDATA[
+			and p.lend_begin_time <= str_to_date(concat(#{endTime,jdbcType=VARCHAR},' 23:59:59'),'%Y-%m-%d %H:%i:%s')
+	 	]]>
+	</if>
+	
+	GROUP BY p.limit_days
+	ORDER BY p.limit_days ASC
+</select>
+
+</mapper>

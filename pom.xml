@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.goochou.p2b</groupId>
+	<artifactId>bulls</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>bulls</name>
+	<url>http://maven.apache.org</url>
+	
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<modules>
+		<module>bulls-app</module>
+		<module>bulls-admin</module>
+		<!-- common -->
+		<module>bulls-model</module>
+		<module>bulls-service</module>
+		<!-- provider -->
+		<module>bulls-openapi-provider</module>
+		<module>bulls-transaction-provider</module>
+		<module>bulls-usercenter-provider</module>
+		<!-- task -->
+		<module>bulls-task</module>
+	</modules>
+
+	<build>
+		<finalName>bulls</finalName>
+	</build>
+</project>

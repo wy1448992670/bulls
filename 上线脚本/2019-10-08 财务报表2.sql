@@ -1,0 +1,2 @@
+insert into resources values(null,'时点数资金统计','report/assetsSnapshootVO/list','report:assetsSnapshootVO:list',63,1,null,null);
+insert into resources values(null,'时点数资金统计-导出','report/assetsSnapshootVO/export','report:assetsSnapshootVO:export',LAST_INSERT_ID(),0,null,null);

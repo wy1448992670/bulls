@@ -1,0 +1,2 @@
+AiSCkohUubR2NpEoLoozkXxJ1UpithJXb0W9fqDreXT2(device_token) (如有多个token,则换行填写,注:保存文件时将该行全部删除! 以下示例:)
+ArnnRVLmulzd1EhSJ838Vrwp0NNAncbgc_OsNM7pouvg

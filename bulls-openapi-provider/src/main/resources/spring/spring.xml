@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:context="http://www.springframework.org/schema/context"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <context:component-scan base-package="com.goochou.p2b">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
+	<bean id="settings" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
+           <list>
+				<value>classpath:conf/resources.properties</value>
+			</list>
+        </property>
+    </bean>
+	
+	<bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+		<property name="properties" ref="settings" />
+	</bean>
+	
+	<!-- 异常实现 -->
+	<bean name="exception" class="com.goochou.p2b.exception.ExceptionImpl" />
+    
+    <!-- MEMCACHED 缓存 -->
+	<!-- <bean id="memcachedClientBuilder" class="net.rubyeye.xmemcached.XMemcachedClientBuilder"
+		p:connectionPoolSize="${memcached.connectionPoolSize}" p:failureMode="${memcached.failureMode}">
+		<constructor-arg>
+			<list>
+				<bean class="java.net.InetSocketAddress">
+					<constructor-arg>
+						<value>${memcached.server1.host}</value>
+					</constructor-arg>
+					<constructor-arg>
+						<value>${memcached.server1.port}</value>
+					</constructor-arg>
+				</bean>
+			</list>
+		</constructor-arg>
+		<constructor-arg>
+			<list>
+				<value>${memcached.server1.weight}</value>
+			</list>
+		</constructor-arg>
+		<property name="commandFactory">
+			<bean class="net.rubyeye.xmemcached.command.TextCommandFactory" />
+		</property>
+		<property name="sessionLocator">
+			<bean class="net.rubyeye.xmemcached.impl.KetamaMemcachedSessionLocator" />
+		</property>
+		<property name="transcoder">
+			<bean class="net.rubyeye.xmemcached.transcoders.SerializingTranscoder" />
+		</property>
+	</bean>-->
+	<!-- Use factory bean to build memcached client -->
+	<!-- <bean id="memcachedClient" factory-bean="memcachedClientBuilder"
+		factory-method="build" destroy-method="shutdown" /> -->
+	
+	<!-- spring加载多有业务的配置文件  -->
+	<!-- <import resource="classpath:/cqjr-biz-bean.xml" /> -->
+	
+	<bean name="remote" class="com.goochou.p2b.adapter.impl.RemoteImpl">
+		<property name="adapter" ref="communicateAdapter"></property>
+	</bean>
+	<bean name="communicateAdapter" class="com.goochou.p2b.adapter.DefaultCommunicateAdapter">
+		<property name="communicatorMap" ref="communicatorMap"></property>
+	</bean>
+	<bean id="communicatorMap" class="java.util.HashMap">
+	   <constructor-arg>
+	    <map>
+	    	<entry key="fuioupay" value-ref="fuiouCommunicator" />
+	    	<entry key="chanzor" value-ref="chanzorCommunicator" />
+	    	<entry key="auth" value-ref="authenticationCommunicator" />
+	    	<entry key="dh3t" value-ref="dh3tCommunicator" />
+	    	<entry key="allinpay" value-ref="allinpayCommunicator" />
+	    	<entry key="chanpay" value-ref="chanPayCommunicator" />
+			<entry key="druidtech" value-ref="druidtechCommunicator" />
+			<entry key="yeepay" value-ref="yeePayCommunicator" />
+	    </map>
+	   </constructor-arg>
+	</bean>
+	<bean name="druidtechCommunicator" class="com.goochou.p2b.adapter.DruidtechCommunicator" >
+	</bean>
+	<bean name="fuiouCommunicator" class="com.goochou.p2b.adapter.FuiouCommunicator" >
+		<property name="remoteURL" value="${fuiou.api}"/>
+		<property name="connectionTimeout" value="${fuiou.connectionTimeout}"/>
+		<property name="soTimeout" value="${fuiou.soTimeout}"/>
+	</bean>
+	
+	<bean name="chanzorCommunicator" class="com.goochou.p2b.adapter.ChanzorCommunicator" >
+		<property name="remoteURL" value="${chanzor.url}"/>
+		<property name="account" value="${chanzor.account}"/>
+		<property name="password" value="${chanzor.password}"/>
+		<property name="connectionTimeout" value="${chanzor.connectionTimeout}"/>
+		<property name="soTimeout" value="${chanzor.soTimeout}"/>
+	</bean>
+	
+	<bean name="dh3tCommunicator" class="com.goochou.p2b.adapter.Dh3tCommunicator" ></bean>
+	
+	<bean name="authenticationCommunicator" class="com.goochou.p2b.adapter.AuthenticationCommunicator" ></bean>
+	
+	<bean name="allinpayCommunicator" class="com.goochou.p2b.adapter.AllinPayCommunicator"></bean>
+	<bean name="chanPayCommunicator" class="com.goochou.p2b.adapter.ChanPayCommunicator"></bean>
+	<bean name="yeePayCommunicator" class="com.goochou.p2b.adapter.YeePayCommunicator"></bean>
+	<bean id="appConfig" class="com.goochou.p2b.utils.PropertiesConfiguration" >
+		<property name="config">
+			<props>
+			</props>
+		</property>
+	</bean>
+</beans>

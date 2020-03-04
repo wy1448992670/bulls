@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+	 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+
+    <mvc:resources mapping="/js/**" location="/js/"/>
+
+    <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*"/>
+            <mvc:exclude-mapping path="/**/fonts/*"/>
+
+            <mvc:exclude-mapping path="/swagger*/**"/>
+            <mvc:exclude-mapping path="/v2/**"/>
+            <mvc:exclude-mapping path="/webjars/**"/>
+
+            <mvc:exclude-mapping path="/v2/api-docs"/>
+            <mvc:exclude-mapping path="/**/v2/api-docs"/>
+            <mvc:exclude-mapping path="/swagger/**"/>
+            <mvc:exclude-mapping path="/swagger-resources/**"/>
+            <mvc:exclude-mapping path="/swagger-ui.html"/>
+
+            <mvc:exclude-mapping path="/**/*.css"/>
+            <mvc:exclude-mapping path="/**/*.ttf"/>
+            <mvc:exclude-mapping path="/**/*.js"/>
+            <mvc:exclude-mapping path="/**/*.ico"/>
+            <mvc:exclude-mapping path="/**/*.png"/>
+            <mvc:exclude-mapping path="/**/*.gif"/>
+            <mvc:exclude-mapping path="/**/*.jpg"/>
+            <mvc:exclude-mapping path="/**/*.jpeg"/>
+            <bean class="com.goochou.p2b.app.interceptor.CommonInteceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <bean class="com.goochou.p2b.app.conf.swagger.Swagger2Config" id="swagger2Config"/>
+
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/"
+          p:suffix=".jsp"/>
+
+    <!-- 设置json转换格式，改用fastjson -->
+    <mvc:annotation-driven conversion-service="conversionService">
+        <mvc:message-converters>
+            <!--将StringHttpMessageConverter的默认编码设为UTF-8-->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!--<value>text/html; charset=UTF-8</value>-->
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+
+            <!--<bean id="fastjson_hmc" class="com.goochou.p2b.app.converter.MappingFastJsonHttpMessageConverter">
+                <property name="serializerFeature">
+                    <list>
+                        <value>WriteMapNullValue</value>
+                        <value>QuoteFieldNames</value>
+                        <value>DisableCircularReferenceDetect</value>
+                    </list>
+                </property>
+            </bean>-->
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <!-- 自定义转换器的类名 -->
+            <bean class="com.goochou.p2b.app.converter.CustomDateConverter"></bean>
+        </property>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+    </bean>
+    
+    <!-- 牛只订单生成器 -->
+	<bean name="bullsOrderIdGenerator" class="com.goochou.p2b.model.idGenerator.OrderIdGenerator">
+		<constructor-arg name="prefix" value="${id.order.bulls.prefix}"></constructor-arg>
+		<constructor-arg name="max" value="${id.order.bulls.max}"></constructor-arg>
+		<constructor-arg name="date_exp" value="${id.order.bulls.date_exp}"></constructor-arg>
+	</bean>
+	<!-- 商城订单生成器 -->
+	<bean name="goodsOrderIdGenerator" class="com.goochou.p2b.model.idGenerator.OrderIdGenerator">
+		<constructor-arg name="prefix" value="${id.order.goods.prefix}"></constructor-arg>
+		<constructor-arg name="max" value="${id.order.goods.max}"></constructor-arg>
+		<constructor-arg name="date_exp" value="${id.order.goods.date_exp}"></constructor-arg>
+	</bean>
+
+</beans>

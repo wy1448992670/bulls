@@ -1,0 +1,66 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean name="interfaceMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="xjc.interfaces.get" value-ref="interfaceService" />
+				<entry key="interfaces.register" value-ref="userRegisterService" />
+				<entry key="interfaces.login" value-ref="userLoginService" />
+				<entry key="interfaces.updatePassword" value-ref="userUpdatePasswordService" />
+				<entry key="interfaces.address.saveOrUpdate" value-ref="addressAddOrUpdateService" />
+				<entry key="interfaces.address.delete" value-ref="addressDeleteService" />
+				<entry key="interfaces.address.list" value-ref="addressListService" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean name="interfaceService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.inface.InterFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.InterFaceRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.InterFaceResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="接口列表"/>
+	</bean>
+	<bean name="userRegisterService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.register.UserRegisterFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.user.UserRegisterRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.user.UserResponse"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="注册接口"/>
+	</bean>
+	<bean name="userLoginService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.login.UserLoginFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.user.UserLoginRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.user.UserResponse"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="登录接口"/>
+	</bean>
+	<bean name="userUpdatePasswordService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.login.UserUpdatePasswordFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.user.UserUpdatePasswordRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="修改密码接口"/>
+	</bean>
+	<bean name="addressAddOrUpdateService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.address.AddOrUpdateAddressFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.user.UserAddressRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.user.UserAddressResponse"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="添加修改地址接口"/>
+	</bean>
+	<bean name="addressDeleteService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.address.DeleteUserAddressFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.user.UserAddressDeleteRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="删除地址接口"/>
+	</bean>
+	
+	<bean name="addressListService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.address.QueryUserAddressFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.user.UserAddressListRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.user.UserAddressListResponse"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="添加修改地址接口"/>
+	</bean>
+</beans>

@@ -1,0 +1,245 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean name="interfaceMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="xjc.interfaces.get" value-ref="interfaceService" />
+				<entry key="fuiou.send" value-ref="fuiouSendService" />
+				<entry key="fuiou.pay" value-ref="fuiouPayService" />
+				<entry key="fuiou.create.pay" value-ref="fuiouCreatePayService" />
+				<entry key="recharge.back.success" value-ref="rechargeBackSuccessService"/>
+				<entry key="recharge.exception" value-ref="rechargeExceptionService"/>
+				<entry key="fuiou.quick.order.query" value-ref="queryFuiouQuickPayService"/>
+				<entry key="fuiou.order.query" value-ref="queryFuiouPayService"/>
+				<entry key="fuiou.withdraw" value-ref="fuiouWithdrawService"/>
+				<entry key="fuiou.withdraw.send" value-ref="withdrawSendService"/>
+				<entry key="message.send" value-ref="messageSendService"/>
+				<entry key="auth.pyzx" value-ref="authService"/>
+				<entry key="fuiou.bind.card" value-ref="fuiouBindCardService"/>
+				<entry key="allinpay.bind.card" value-ref="allinPayBindCardService" />
+				<entry key="allinpay.bind.card.confirm" value-ref="allinPayBindCardConfirmService" />
+				<entry key="allinpay.bind.card.message" value-ref="allinPayBindCardMessageService" />
+				<entry key="allinpay.send" value-ref="allinpaySendService" />
+				<entry key="allinpay.pay" value-ref="allinpayPayService" />
+				<entry key="allinpay.create.pay" value-ref="allinpayCreatePayService" />
+				<entry key="allinpay.order.query" value-ref="queryAllinPayService"/>
+				<entry key="allinpay.order.refund" value-ref="refundAllinPayService"/>
+				<entry key="allinpay.withdraw" value-ref="allinPayWithdrawService"/>
+
+				<entry key="druidtech.devices" value-ref="druidtechDevices"/>
+				<entry key="druidtech.device.gps" value-ref="druidtechGps"/>
+				<entry key="druidtech.device.behavior" value-ref="druidtechBehavior"/>
+				<entry key="druidtech.device.total" value-ref="druidtechBehaviorTotal"/>
+				
+				<entry key="yeepay.create.pay" value-ref="yeePayCreatePayService" />
+				<entry key="yeepay.order.query" value-ref="yeePayOrderQueryService" />
+				<entry key="yeepay.order.refund" value-ref="yeePayOrderRefundService" />
+			</map>
+		</constructor-arg>
+	</bean>
+
+	<bean name="druidtechDevices" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.druidtech.GetDevices"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.farmcloud.druidtech.DeviceRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.farmcloud.CommonResponse"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="获取设备"/>
+	</bean>
+	<bean name="druidtechGps" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.druidtech.GetDeviceGps"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.farmcloud.druidtech.DeviceGpsRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.farmcloud.CommonResponse"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="获取设备gps"/>
+	</bean>
+	<bean name="druidtechBehavior" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.druidtech.GetDeviceBehavior"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.farmcloud.druidtech.DeviceBehaviorReqeust"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.farmcloud.CommonResponse"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="获取设备行为轨迹"/>
+	</bean>
+	<bean name="druidtechBehaviorTotal" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.druidtech.GetDeviceTotalMsg"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.farmcloud.druidtech.DeviceTotalBehaviorRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.farmcloud.CommonResponse"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="获取设备行为信息总数"/>
+	</bean>
+
+	<bean name="allinPayWithdrawService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.withdraw.AllinPayWithdraw"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.withdraw.WithdrawRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="通联提现"/>
+	</bean>
+	<bean name="refundAllinPayService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.RefundAllinPay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.AllinPayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.AllinPayResponse"/>
+		<property name="auth" value="叶东平[yedongping@zhongyijr.com]"/>
+		<property name="description" value="通联支付申请"/>
+	</bean>
+	<bean name="queryAllinPayService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.QueryAllinPay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.AllinPayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.AllinPayResponse"/>
+		<property name="auth" value="叶东平[yedongping@zhongyijr.com]"/>
+		<property name="description" value="通联支付查询订单状态"/>
+	</bean>
+	<bean name="allinpayCreatePayService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.AllinPayCreatePay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.AllinPayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.AllinPayResponse"/>
+		<property name="auth" value="叶东平[yedongping@zhongyijr.com]"/>
+		<property name="description" value="通联支付申请"/>
+	</bean>
+	<bean name="allinpayPayService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.AllinPay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.AllinPayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.AllinPayResponse"/>
+		<property name="auth" value="叶东平[yedongping@zhongyijr.com]"/>
+		<property name="description" value="通联支付确认"/>
+	</bean>
+	<bean name="allinpaySendService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.AllinPaySend"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.AllinPayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.AllinPayResponse"/>
+		<property name="auth" value="叶东平[yedongping@zhongyijr.com]"/>
+		<property name="description" value="重发通联支付短信"/>
+	</bean>
+	<bean name="allinPayBindCardService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.AllinPayBindCard"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.AllinPayBindCardRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.AllinPayBindCardResponse"/>
+		<property name="auth" value="叶东平[yedongping@zhongyijr.com]"/>
+		<property name="description" value="通联签约申请"/>
+	</bean>
+	<bean name="allinPayBindCardConfirmService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.AllinPayBindCardConfirm"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.AllinPayBindCardRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.AllinPayBindCardResponse"/>
+		<property name="auth" value="叶东平[yedongping@zhongyijr.com]"/>
+		<property name="description" value="通联签约确认"/>
+	</bean>
+	<bean name="allinPayBindCardMessageService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.AllinPayBindCardMessage"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.AllinPayBindCardRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.AllinPayBindCardResponse"/>
+		<property name="auth" value="叶东平[yedongping@zhongyijr.com]"/>
+		<property name="description" value="重发签约短信验证码"/>
+	</bean>
+	<bean name="interfaceService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.inface.InterFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.InterFaceRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.InterFaceResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="接口列表"/>
+	</bean>
+	<bean name="fuiouSendService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.FuiouSendMessage"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.FuiouSendMessageRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.FuiouDataResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="富友快捷支付重发短信"/>
+	</bean>
+	<bean name="fuiouPayService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.FuiouPay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.FuiouPayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="富友快捷支付"/>
+	</bean>
+	<bean name="fuiouCreatePayService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.FuiouCreatePay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.FuiouCreatePayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.FuiouDataResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="富友快捷支付创建"/>
+	</bean>
+	<bean name="rechargeBackSuccessService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.RechargeBackSuccess"/>
+		<property name="request" value="com.goochou.p2b.hessian.Request"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="武勇吉[wuyongji@xinjucai.com]"/>
+		<property name="description" value="充值回调成功业务处理"/>
+	</bean> 
+	<bean name="rechargeExceptionService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.RechargeException"/>
+		<property name="request" value="com.goochou.p2b.hessian.Request"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="武勇吉[wuyongji@xinjucai.com]"/>
+		<property name="description" value="充值回调成功业务处理"/>
+	</bean>
+	<bean name="queryFuiouQuickPayService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.QueryFuiouQuickPay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.QueryFuiouQuickPayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.QueryFuiouQuickPayResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="富友快捷订单查询"/>
+	</bean>
+	<bean name="queryFuiouPayService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.QueryFuiouPay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.QueryFuiouPayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.QueryFuiouPayResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="富友网关订单查询"/>
+	</bean>
+	<bean name="fuiouWithdrawService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.withdraw.Withdraw"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.withdraw.WithdrawRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="富友提现"/>
+	</bean>
+	<bean name="withdrawSendService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.withdraw.WithdrawSend"/>
+		<property name="request" value="com.goochou.p2b.hessian.Request"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="武勇吉[wuyongji@xinjucai.com]"/>
+		<property name="description" value="富友提现发送报文"/>
+	</bean>
+	<bean name="messageSendService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.message.SendMessage"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.message.SendMessageRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.message.SendMessageResponse"/>
+		<property name="auth" value="叶东平[yedongping@zhongyilc.com]"/>
+		<property name="description" value="畅卓短信接口"/>
+	</bean>
+	<bean name="authService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.auth.Authentication"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.auth.AuthenticationRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="鹏元征信实名认证"/>
+	</bean>
+	<bean name="fuiouBindCardService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.FuiouBindCard"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.FuiouBindCardRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.FuiouBindCardResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="富友绑卡兼容实名认证"/>
+	</bean>
+	<bean name="yeePayCreatePayService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.YeePayCreatePay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.YeePayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.YeePayResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="易宝支付创建"/>
+	</bean>
+	<bean name="yeePayOrderQueryService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.QueryYeePay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.YeePayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.QueryYeePayResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="易宝支付订单查询"/>
+	</bean>
+	<bean name="yeePayOrderRefundService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.pay.RefundYeePay"/>
+		<property name="request" value="com.goochou.p2b.hessian.openapi.pay.YeePayRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.openapi.pay.QueryYeePayResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="易宝支付退款申请"/>
+	</bean>
+</beans>

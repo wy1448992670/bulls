@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+	default-lazy-init="true">
+	
+	<!-- 充值回调成功业务处理执行 -->
+	<bean id="rechargeBackSuccessJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.goochou.p2b.task.doing.impl.RechargeBackSuccessJobQuartzTask" />
+		<!-- fail-over节点重新执行之前所有失败或未执行的任务, 默认为false. -->
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="rechargeBackSuccessTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<!--每20秒执行一次 -->
+		<!--项目启动5秒后开始执行任务 -->
+		<property name="jobDetail">
+			<ref bean="rechargeBackSuccessJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0/30 * * * * ? *</value>
+		</property>
+	</bean>
+	
+	<!-- 充值超时业务处理执行 -->
+	<bean id="rechargeExceptionJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.goochou.p2b.task.doing.impl.RechargeExceptionJobQuartzTask" />
+		<!-- fail-over节点重新执行之前所有失败或未执行的任务, 默认为false. -->
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="rechargeExceptionTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<!--每20秒执行一次 -->
+		<!--项目启动5秒后开始执行任务 -->
+		<property name="jobDetail">
+			<ref bean="rechargeExceptionJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 * * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 提现业务处理执行 -->
+	<bean id="withdrawSendJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.goochou.p2b.task.doing.impl.WithdrawSendJobQuartzTask" />
+		<!-- fail-over节点重新执行之前所有失败或未执行的任务, 默认为false. -->
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="withdrawSendTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<!--每20秒执行一次 -->
+		<!--项目启动5秒后开始执行任务 -->
+		<property name="jobDetail">
+			<ref bean="withdrawSendJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0/30 * * * * ? *</value>
+		</property>
+	</bean>
+		
+	<!-- 签到 -->
+	<bean id="signedUserJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.goochou.p2b.task.doing.impl.SignedUserJobQuartzTask" />
+		<!-- fail-over节点重新执行之前所有失败或未执行的任务, 默认为false. -->
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="signedUserTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="signedUserJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/10 3-4 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 摇一摇定时器 -->
+	<bean id="yaoCountDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.YaoCountJobQuartzTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="yaoCountTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="yaoCountDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/30 5-6 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 红包到期提醒 -->
+	<bean id="hongbaoMessageDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.HongbaoMessageJobQuartzTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="hongbaoMessageTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="hongbaoMessageDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 17  * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 提现券到期提醒 -->
+	<bean id="withdrawCouponDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.WithdrawCouponJobQuartzTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="withdrawCouponTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="withdrawCouponDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 0 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--投资订单清理 -->
+	<bean id="investmentCancelTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.InvestmentCancelTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="investmentCancelTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="investmentCancelTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/5 * * * ?</value>
+		</property>
+	</bean>
+	
+	<!--商城订单清理 -->
+	<bean id="orderCancelTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.QrderCancelTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="orderCancelTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="orderCancelTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 1/5 * * * ?</value>
+		</property>
+	</bean>
+	
+	<!--投资订单自动回购 -->
+	<bean id="investmentBuyBackTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.InvestmentBuyBackTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="investmentBuyBackTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="investmentBuyBackTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 10 0 * * ?</value>
+		</property>
+	</bean>
+	
+	<!--投资订单到期 -->
+	<bean id="investmentDueTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.InvestmentDueTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="investmentDueTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="investmentDueTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 9 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 各种订单短信 -->
+	<bean id="orderMessageTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.OrderMessageJobQuartzTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="orderMessageTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="orderMessageTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/1 * * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- GPS设备装载数据 -->
+	<bean id="trackDeviceLoadTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.TrackDeviceLoadTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="trackDeviceLoadTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="trackDeviceLoadTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 15 7,13,18,22 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- GPS设备装载数据 -->
+	<bean id="assetsSnapshotTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.AssetsSnapshotTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="assetsSnapshotTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="assetsSnapshotTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 1 * * ?</value>
+		</property>
+	</bean>
+
+	<!-- VIP用户派息 -->
+	<bean id="dividendTaskJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.UserDividendJobQuartzTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="dividendTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="dividendTaskJob" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/10 0-1 * * ?</value>
+		</property>
+	</bean>
+
+
+	<!-- 渠道注册用户唤醒添加预发短信 每天上午3点钟触发 -->
+	<bean id="awakenChannelRegisterMessageTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.AwakenChannelRegisterMessageJobQuartzTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="awakenChannelRegisterMessage" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="awakenChannelRegisterMessageTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0 3 * * ?</value>
+		</property>
+	</bean>
+
+	<!-- 短信发送 每十分钟触发一次 -->
+	<bean id="smsSendTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.SmsSendJobQuartzTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="smsSendTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="smsSendTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/10 * * * ?</value>
+		</property>
+	</bean>
+
+	<!-- 迁移用户回款（凌晨0-2点，每十分钟执行一次） -->
+	<bean id="migrationInvestmentBillTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.MigrationInvestmentBillTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="migrationInvestmentBillTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="migrationInvestmentBillTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/10 0-2 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 对账原始文件 -->
+	<bean id="payDownFileJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.goochou.p2b.task.doing.impl.PayDownFileJobQuartzTask" />
+		<!-- fail-over节点重新执行之前所有失败或未执行的任务, 默认为false. -->
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="payDownFileTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="payDownFileJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/10 10-11 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- 新年集五福,定期赠送抽福次数 -->
+	<bean id="activityBlessingRegularGiveJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.goochou.p2b.task.doing.impl.ActivityBlessingRegularGiveTask" />
+		<!-- fail-over节点重新执行之前所有失败或未执行的任务, 默认为false. -->
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="activityBlessingRegularGiveTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="activityBlessingRegularGiveJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0-10 * * * ?</value>
+		</property>
+	</bean>
+	<!-- 新年集五福,牛气冲天兑换成红包 -->
+	<!--
+	<bean id="activityBlessingTransformGreateBullsJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass"
+			value="com.goochou.p2b.task.doing.impl.ActivityBlessingTransformGreateBullsTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	
+	<bean id="activityBlessingTransformGreateBullsTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="activityBlessingTransformGreateBullsJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/10 22,23 24 1 ? 2020</value>
+		</property>
+	</bean>
+	-->
+	
+	<!-- 商城秒杀活动解锁商品库存（凌晨0-1点，每二十分钟执行一次） -->
+	<bean id="mallActivitySecondKillTaskTaskJobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<property name="jobClass" value="com.goochou.p2b.task.doing.impl.MallActivitySecondKillTask" />
+		<property name="requestsRecovery" value="true" />
+	</bean>
+	<bean id="mallActivitySecondKillTaskTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+		<property name="jobDetail">
+			<ref bean="mallActivitySecondKillTaskTaskJobDetail" />
+		</property>
+		<property name="cronExpression">
+			<value>0 0/20 0-1 * * ?</value>
+		</property>
+	</bean>
+	
+	<!-- Quartz集群Schduler ，集群任务执行调度  -->
+	<bean id="orderQuartzScheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!-- Triggers集成 -->
+		<property name="triggers">
+			<list>
+				<ref local="rechargeBackSuccessTrigger" />
+				<!--<ref local="rechargeExceptionTrigger"/>-->
+				<ref local="withdrawSendTrigger"/>
+				<!--<ref local="signedUserTaskTrigger" />--><!-- 签到 -->
+				<!--<ref local="yaoCountTrigger" />--><!-- 摇一摇定时器 -->
+				<!--<ref local="withdrawCouponTrigger" />--><!-- 提现券到期提醒 -->
+				<!--<ref local="hongbaoMessageTrigger" />--><!-- 红包到期提醒 -->
+				<!--<ref local="orderCancelTrigger" />-->
+				<!--<ref local="investmentCancelTrigger" />-->
+				<ref local="investmentCancelTrigger" />
+				<ref local="orderCancelTrigger" />
+				<ref local="investmentBuyBackTrigger" />
+				<ref local="investmentDueTrigger" />
+				<ref local="orderMessageTrigger" />
+				<ref local="trackDeviceLoadTrigger" />
+				<ref local="assetsSnapshotTrigger" />
+				<ref local="dividendTrigger" />
+				<ref local="awakenChannelRegisterMessage" />
+				<ref local="smsSendTrigger" />
+				<ref local="migrationInvestmentBillTrigger" />
+				<ref local="payDownFileTaskTrigger" />
+				<ref local="mallActivitySecondKillTaskTrigger" />
+				<!--<ref local="activityBlessingRegularGiveTaskTrigger" />-->
+				<!--<ref local="activityBlessingTransformGreateBullsTaskTrigger" />-->
+			</list>
+		</property>
+		<!-- quartz配置文件路径 -->
+		<property name="configLocation" value="classpath:/conf/quartz.properties" />
+		<!-- 启动时延期2秒开始任务 -->
+		<property name="startupDelay" value="10" />
+		<!-- 保存Job数据到数据库所需的数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<!-- Job接受applicationContext的成员变量名 -->
+		<property name="applicationContextSchedulerContextKey" value="applicationContext" />
+	</bean>
+
+	<!-- Timer Job的可配置属性 -->
+	<util:map id="timerJobConfig">
+		<entry key="nodeName" value="timingTasks" />
+	</util:map>
+
+</beans>

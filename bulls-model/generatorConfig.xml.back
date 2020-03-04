@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<classPathEntry location="D:\java\apache-maven-3.6.1\my_jar\mysql\mysql-connector-java\5.1.24\mysql-connector-java-5.1.24.jar" />
+	<context id="context" targetRuntime="MyBatis3">
+		<property name="javaFileEncoding" value="UTF-8"/>
+		<plugin type="org.duoku.groom.mybatis.plugin.PaginationPlugin"/>
+		<!-- mybatis-generator:generate -->
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
+		
+		<commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="false" />
+            <!-- 是否去除自动生成注释中的日期 true：是 ： false:否 -->
+            <property name="suppressDate" value="true" />
+        </commentGenerator>
+
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://192.168.1.7:3306/bulls" userId="bulls"
+			password="123456" />
+
+		<javaModelGenerator targetPackage="com.goochou.p2b.model" targetProject="bulls-model/src/main/java" />
+		<sqlMapGenerator targetPackage="com.goochou.p2b.dao" targetProject="bulls-model/src/main/resources" />
+		<javaClientGenerator targetPackage="com.goochou.p2b.dao" targetProject="bulls-model/src/main/java" type="XMLMAPPER" />
+		<table schema="" tableName="investment">
+		<!--  enableInsert="false"  enableUpdateByPrimaryKey="false"
+		enableDeleteByPrimaryKey="false" enableDeleteByExample="false"  -->
+		<!--enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" -->
+		<!-- 指定对象名 domainObjectName="DeviceResponse" -->
+			<!-- 属性非驼峰
+			<property name="useActualColumnNames" value="true"/>
+			-->
+			<generatedKey column="id" sqlStatement="Mysql" identity="true" />
+ 			<!-- 对象去前缀,表名驼峰有bug
+ 			<domainObjectRenamingRule searchString="^T_" replaceString="" /> 
+ 			-->
+			<!-- 属性去前缀
+			<columnRenamingRule searchString="^CUST_" replaceString="" /> 
+			-->
+			<!-- 指定字段类型
+			<columnOverride column="pin_zhong" javaType="java.lang.String" jdbcType="VARCHAR" />
+    		<columnOverride column="chan_di_lai_yuan" javaType="java.lang.String" jdbcType="VARCHAR" />
+    		<columnOverride column="yue_ling" javaType="java.lang.String" jdbcType="VARCHAR" />
+    		<columnOverride column="jian_kang_zhuang_kuang" javaType="java.lang.String" jdbcType="VARCHAR" />
+			-->
+		</table>
+
+    </context>
+
+</generatorConfiguration>

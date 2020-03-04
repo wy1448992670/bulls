@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.goochou.p2b.dao.JobMapper" >
+
+  <update id="assetsSnapshot" >
+    insert into `${currentPeriodTable}`
+	select *
+	from(
+		select 	tod.user_id,
+			tod.balance_amount+ifnull(his.balance_amount,0) as balance_amount,
+			tod.frozen_amount+ifnull(his.frozen_amount,0) as frozen_amount,
+			tod.credit_amount+ifnull(his.credit_amount,0) as credit_amount,
+			tod.freozen_credit_amount+ifnull(his.freozen_credit_amount,0) as freozen_credit_amount,
+			now() as create_date
+		from (
+			select user.id user_id,
+				sum(case when account_type_id=1 then
+					(case when account_operate_type_id=1 then amount
+					when account_operate_type_id=2 then -amount
+					when account_operate_type_id=5 then amount
+					when account_operate_type_id=6 then -amount
+					else 0 end)
+				else 0 end) as balance_amount,
+				sum(case when account_type_id=1 then
+					(case when account_operate_type_id=3 then amount
+					when account_operate_type_id=4 then -amount
+					when account_operate_type_id=5 then -amount
+					when account_operate_type_id=6 then amount
+					else 0 end)
+				else 0 end) as frozen_amount,
+					sum(case when account_type_id=2 then
+					(case when account_operate_type_id=1 then amount
+					when account_operate_type_id=2 then -amount
+					when account_operate_type_id=5 then amount
+					when account_operate_type_id=6 then -amount
+					else 0 end)
+				else 0 end) as credit_amount,
+				sum(case when account_type_id=2 then
+					(case when account_operate_type_id=3 then amount
+					when account_operate_type_id=4 then -amount
+					when account_operate_type_id=5 then -amount
+					when account_operate_type_id=6 then amount
+					else 0 end)
+				else 0 end) as freozen_credit_amount
+			from user
+			left join trade_record on user.id=trade_record.user_id and trade_record.create_date&gt;=#{currentPeriodStart} and trade_record.create_date&lt;#{currentPeriodEnd}
+			group by user.id
+		)tod
+		left join `${priorPeriodTable}` his on his.user_id=tod.user_id
+	)trade_record
+	where  trade_record.balance_amount!=0 or trade_record.frozen_amount!=0 or trade_record.credit_amount!=0 or trade_record.freozen_credit_amount!=0;
+  </update>
+  <update id="createAssetsSnapshotTable" >
+    create table `${currentPeriodTable}` like trade_record_template;
+  </update>
+  <select id="countTableName" resultType="java.lang.Integer">
+  	select count(1)
+	from information_schema.TABLES t 
+	where  true
+	and t.TABLE_NAME =#{tableName};
+  </select>
+</mapper>

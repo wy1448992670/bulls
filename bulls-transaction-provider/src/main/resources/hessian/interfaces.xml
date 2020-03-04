@@ -1,0 +1,124 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean name="interfaceMap" class="java.util.HashMap">
+		<constructor-arg>
+			<map>
+				<entry key="xjc.interfaces.get" value-ref="interfaceService" />
+				<entry key="goodsorder.submit" value-ref="submitGoodsOrderService" />
+				<entry key="goodsorder.cancel" value-ref="cancelGoodsOrderService" />
+				<entry key="goodsorder.refund" value-ref="refundGoodsOrderService" />
+				<entry key="goodsorder.paysuccess" value-ref="goodsOrderPaySuccessService" />
+				<entry key="investorder.submit" value-ref="submitInvestOrderService" />
+				<entry key="investorder.cancel" value-ref="cancelInvestOrderService" />
+				<entry key="investorder.paysuccess" value-ref="investOrderPaySuccessService" />
+				<entry key="goodsorder.list" value-ref="listGoodsOrderService" />
+				<entry key="goodsorder.detail" value-ref="detailGoodsOrderService" />
+				<entry key="investorder.list" value-ref="listInvestOrderService" />
+				<entry key="investorder.detail" value-ref="detailInvestOrderService" />
+				<entry key="interest.list" value-ref="interestListService" />
+			</map>
+		</constructor-arg>
+	</bean>
+	<bean name="interfaceService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.inface.InterFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.InterFaceRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.InterFaceResponse"/>
+		<property name="auth" value="叶东平[yedongping@xinjucai.com]"/>
+		<property name="description" value="接口列表"/>
+	</bean>
+	<bean name="addGoodsOrderService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.goods.AddGoodsOrderFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.goods.GoodsOrderRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.transaction.OrderResponse"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="添加商城订单接口"/>
+	</bean>
+	<bean name="submitGoodsOrderService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.goods.SubmitGoodsOrderFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.goods.GoodsOrderRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.transaction.OrderResponse"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="添加商城订单接口"/>
+	</bean>
+	<bean name="listGoodsOrderService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.goods.GoodsOrderListFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.goods.GoodsOrderListRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.transaction.goods.GoodsOrderListResponse"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="查询商城订单列表"/>
+	</bean>
+	<bean name="detailGoodsOrderService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.goods.GoodsOrderDetailFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.goods.GoodsOrderDetailRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.transaction.goods.GoodsOrderResponse"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="查询商城订单详情"/>
+	</bean>
+	<bean name="listInvestOrderService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.investment.QueryOrderListFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.investment.InvestmentOrderListRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.transaction.investment.InvestmentOrderListResponse"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="查询牛只订单列表"/>
+	</bean>
+	<bean name="detailInvestOrderService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.investment.DetailOrderFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.investment.InvestOrderDetailRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.MapResponse"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="查询牛只订单详情"/>
+	</bean>
+	
+	<bean name="interestListService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.investment.InterestListFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.investment.InterestListRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.ListResponse"/>
+		<property name="auth" value="wangyun"/>
+		<property name="description" value="牛只回报账单"/>
+	</bean>
+	
+	<bean name="cancelGoodsOrderService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.goods.CancelGoodsOrderFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.goods.GoodsOrderRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="取消商城订单接口"/>
+	</bean>
+	<bean name="refundGoodsOrderService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.goods.RefundGoodsOrderFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.goods.GoodsOrderRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="商城订单退款接口"/>
+	</bean>
+	<bean name="goodsOrderPaySuccessService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.goods.GoodsOrderPaySuccessFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.goods.GoodsOrderRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="商城订单付款成功接口"/>
+	</bean>
+
+	<bean name="submitInvestOrderService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.investment.SubmitOrderFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.investment.InvestmentOrderRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.transaction.OrderResponse"/>
+		<property name="auth" value="zhangqiongqi"/>
+		<property name="description" value="添加认购订单接口"/>
+	</bean>
+	<bean name="cancelInvestOrderService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.investment.CancelOrderFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.investment.InvestmentOrderRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="取消认购订单接口"/>
+	</bean>
+	<bean name="investOrderPaySuccessService" class="com.goochou.p2b.hessian.Service" >
+		<property name="serviceImpl" value="com.goochou.p2b.module.investment.OrderPaySuccessFace"/>
+		<property name="request" value="com.goochou.p2b.hessian.transaction.investment.InvestmentOrderRequest"/>
+		<property name="response" value="com.goochou.p2b.hessian.Response"/>
+		<property name="auth" value="huangsj"/>
+		<property name="description" value="认购订单付款成功接口"/>
+	</bean>
+	
+</beans>

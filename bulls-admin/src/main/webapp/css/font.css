@@ -1,0 +1,97 @@
+@font-face {
+  font-family: 'se7en';
+  src:url('../font/se7en.eot');
+  src:url('../font/se7end41d.eot?#iefix') format('embedded-opentype'),
+    url('../font/se7en.woff') format('woff'),
+    url('../font/se7en.ttf') format('truetype'),
+    url('../font/se7en.svg#se7en') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Use the following CSS code if you want to use data attributes for inserting your icons */
+[data-icon]:before {
+  font-family: 'se7en';
+  content: attr(data-icon);
+  speak: none;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Use the following CSS code if you want to have a class per icon */
+/*
+Instead of a list of all class selectors,
+you can use the generic selector below, but it's slower:
+[class*="se7en-"] {
+*/
+.se7en-home, .se7en-feed, .se7en-star, .se7en-forms, .se7en-tables, .se7en-charts, .se7en-pages, .se7en-gallery, .se7en-flag, .se7en-envelope, .se7en-gear {
+  font-family: 'se7en';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+}
+.se7en-home:before {
+  content: "\e006";
+}
+.se7en-feed:before {
+  content: "\e002";
+}
+.se7en-star:before {
+  content: "\e003";
+}
+.se7en-forms:before {
+  content: "\e004";
+}
+.se7en-tables:before {
+  content: "\e00a";
+}
+.se7en-charts:before {
+  content: "\e007";
+}
+.se7en-pages:before {
+  content: "\e008";
+}
+.se7en-gallery:before {
+  content: "\e009";
+}
+.se7en-flag:before {
+  content: "\e000";
+}
+.se7en-envelope:before {
+  content: "\e005";
+}
+.se7en-gear:before {
+  content: "\e001";
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+  font-family: 'se7en';
+  src: url('../font/se7en.svg#se7en') format('svg');
+  }
+}
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('//at.alicdn.com/t/font_1442452827_234428.eot'); /* IE9*/
+  src: url('//at.alicdn.com/t/font_1442452827_234428.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('//at.alicdn.com/t/font_1442452827_234428.woff') format('woff'), /* chrome、firefox */
+  url('//at.alicdn.com/t/font_1442452827_234428.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url('//at.alicdn.com/t/font_1442452827_234428.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+.iconfont{
+	font-family:"iconfont";
+	font-size:28px;
+	font-style:normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-webkit-text-stroke-width: 0.5px;
+}

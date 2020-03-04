@@ -1,0 +1,16 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- 接口的具体实现类 -->
+	<bean id="impl" class="com.goochou.p2b.hessian.HessianImpl" >
+		 <property name="interfaceMap" ref="interfaceMap" />
+	</bean>
+	<!-- 使用Spring的HessianServie做代理 -->
+	<bean name="/com.rsc.interface"
+	class="org.springframework.remoting.caucho.HessianServiceExporter">
+		<!-- service引用具体的实现实体Bean-->
+		<property name="service" ref="impl" />
+		<property name="serviceInterface" value="com.goochou.p2b.hessian.api.HessianInterface" />
+	</bean>
+	
+	<!-- 可以配置多个HessianServiceExporter代理Bean -->
+</beans>

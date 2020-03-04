@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goochou.p2b.dao.ActivityQualificationMapper">
+    <resultMap id="BaseResultMap" type="com.goochou.p2b.model.ActivityQualification">
+        <id column="idx" jdbcType="INTEGER" property="idx"/>
+        <result column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="opportunity_number" jdbcType="INTEGER" property="opportunityNumber"/>
+        <result column="activity_id" jdbcType="INTEGER" property="activityId"/>
+        <result column="prize_level" jdbcType="VARCHAR" property="prizeLevel"/>
+        <result column="version" jdbcType="INTEGER" property="version"/>
+        <result column="is_deleted" jdbcType="INTEGER" property="isDeleted"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+        <result column="update_date" jdbcType="TIMESTAMP" property="updateDate"/>
+        <result column="operate_id" jdbcType="VARCHAR" property="operateId"/>
+        <result column="operate_name" jdbcType="VARCHAR" property="operateName"/>
+    </resultMap>
+
+    <!--根据用户id和活动id查找抽奖资格表信息-->
+    <select id="findByUserIdAndActivityId" parameterType="map" resultMap="BaseResultMap">
+
+        select
+          idx,id,user_id,opportunity_number,activity_id,prize_level,version,is_deleted,create_date,update_date
+        from activity_qualification
+        where user_id = #{userId,jdbcType=INTEGER}
+        and activity_id = #{activityId,jdbcType=INTEGER}
+        and is_deleted = 1
+    </select>
+
+    <!--插入抽奖资格信息对象-->
+    <insert id="insertActivityQualification" keyProperty="idx" parameterType="com.goochou.p2b.model.ActivityQualification" useGeneratedKeys="true">
+
+        INSERT INTO activity_qualification
+        (id, user_id, opportunity_number,
+        activity_id, prize_level, version,
+        is_deleted, create_date, update_date,
+        operate_id,operate_name
+        )
+        VALUES
+        (#{id,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{opportunityNumber,jdbcType=INTEGER},
+        #{activityId,jdbcType=INTEGER}, #{prizeLevel,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER},
+        #{isDeleted,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP},
+        #{operateId,jdbcType=VARCHAR},#{operateName,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--根据活动id,用户id,版本修改抽奖资格表-->
+    <update id="updateByUserIdAndActivityIdAndVersion" parameterType="com.goochou.p2b.model.ActivityQualification">
+        UPDATE activity_qualification
+        SET
+          version = version+1,
+          opportunity_number = opportunity_number-1,
+          update_date = now()
+        WHERE user_id = #{userId,jdbcType=INTEGER}
+        and activity_id = #{activityId,jdbcType=INTEGER}
+        and version = #{version,jdbcType=INTEGER}
+    </update>
+
+</mapper>

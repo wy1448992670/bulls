@@ -1,0 +1,50 @@
+package com.goochou.p2b.task.listener;
+
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
+import com.goochou.p2b.task.TaskApp;
+import com.goochou.p2b.utils.CommonUtil;
+
+
+/**
+ * 
+ * 容器启动初始化监听器
+ * 
+ * @author yeahdp
+ * 
+ */
+public class ApplicationContextListener implements ServletContextListener {
+	
+	private final static Log logger = LogFactory.getLog(ApplicationContextListener.class);
+
+	@Override
+	public void contextDestroyed(ServletContextEvent servletContextEvent) {
+		logger.info("servlet上下文销毁!");
+	}
+
+	@Override
+	public void contextInitialized(ServletContextEvent servletContextEvent) {
+		logger.info("正在初始化上下文监听器");
+		String realPath = servletContextEvent.getServletContext().getRealPath(
+				"");
+		if (!realPath.endsWith("/")) {
+			realPath += "/";
+		}
+		TaskApp.APP_PATH = realPath;
+		// 初始化SPRING_CONTEXT
+		TaskApp.SPRING_CONTEXT = WebApplicationContextUtils
+				.getWebApplicationContext(servletContextEvent
+						.getServletContext());
+		/**
+		 * 获取本机IP放入环境变量中
+		 */
+		System.setProperty("host_ip",CommonUtil.getLocalIP());
+	}
+	
+}

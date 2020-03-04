@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goochou.p2b.dao.TradeMessageLogMapper">
+  <!-- 交易报文日志相关  -->
+	<resultMap id="tradeMessageResultMap" type="com.goochou.p2b.model.TradeMessageLog">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="message_url" jdbcType="VARCHAR" property="messageUrl" />
+    <result column="message_channel" jdbcType="VARCHAR" property="messageChannel" />
+    <result column="message_operate" jdbcType="VARCHAR" property="messageOperate" />
+    <result column="message_type" jdbcType="VARCHAR" property="messageType" />
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="in_order_id" jdbcType="VARCHAR" property="inOrderId" />
+    <result column="out_order_id" jdbcType="VARCHAR" property="outOrderId" />
+    <result column="message_info_ciphertext" jdbcType="VARCHAR" property="messageInfoCiphertext" />
+    <result column="message_info" jdbcType="VARCHAR" property="messageInfo" />
+	<result column="message_status" jdbcType="VARCHAR" property="messageStatus" />    
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="is_deleted" jdbcType="INTEGER" property="isDeleted" />
+    <result column="operate_id" jdbcType="VARCHAR" property="operateId" />
+    <result column="operate_name" jdbcType="VARCHAR" property="operateName" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+  <sql id="TradeMessageLog_Column_List">
+    id, message_url, message_channel, message_operate, message_type, user_id, in_order_id, out_order_id, message_info_ciphertext,
+    message_info, message_status, status, is_deleted, operate_id, operate_name, create_date, update_date
+  </sql>
+  <insert id="insertTradeMessageLog" keyProperty="id" parameterType="com.goochou.p2b.model.TradeMessageLog" useGeneratedKeys="true">
+    insert into ts_trade_message_log (id, message_url, message_channel, message_operate, 
+    message_type, user_id, in_order_id, out_order_id,message_info_ciphertext,message_info, 
+    message_status,status, is_deleted, operate_id, operate_name, create_date, update_date
+      )
+    values (#{id,jdbcType=VARCHAR}, 
+    	#{messageUrl,jdbcType=VARCHAR}, 
+    	#{messageChannel,jdbcType=VARCHAR},
+    	#{messageOperate,jdbcType=VARCHAR}, 
+    	#{messageType,jdbcType=VARCHAR}, 
+    	#{userId,jdbcType=VARCHAR},
+    	#{inOrderId,jdbcType=VARCHAR},
+    	#{outOrderId,jdbcType=VARCHAR},
+    	#{messageInfoCiphertext,jdbcType=VARCHAR},
+    	#{messageInfo,jdbcType=VARCHAR},
+    	#{messageStatus,jdbcType=VARCHAR},
+    	#{status,jdbcType=VARCHAR},
+    	#{isDeleted,jdbcType=INTEGER},
+    	#{operateId,jdbcType=VARCHAR},
+    	#{operateName,jdbcType=VARCHAR},
+    	#{createDate,jdbcType=TIMESTAMP},
+    	#{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  
+  <update id="updateTradeMessageLogStatus" parameterType="com.goochou.p2b.model.vo.TradeMessageLogVO">
+        update ts_trade_message_log
+        <set>
+            <if test="editStatus != null">
+                status = #{editStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="messageStatus != null">
+            	message_status = #{messageStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="messageInfo != null">
+            	message_info = #{messageInfo,jdbcType=VARCHAR},
+            </if>
+            update_date = NOW()
+        </set>
+        where in_order_id = #{inOrderId,jdbcType=VARCHAR} 
+        and message_type = #{messageType,jdbcType=VARCHAR}
+    </update>
+  
+  <select id="getTradeMessageLog" resultMap="tradeMessageResultMap" parameterType="map" >
+    select 
+    <include refid="TradeMessageLog_Column_List" />
+    from ts_trade_message_log
+    where out_order_id = #{outOrderId,jdbcType=VARCHAR}
+    and message_type = #{messageType,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectTradeMessageLog" resultMap="tradeMessageResultMap" parameterType="map" >
+    select 
+    <include refid="TradeMessageLog_Column_List" />
+    from ts_trade_message_log
+    where 1=1 
+    <if test="status != null">
+    	and status = #{status,jdbcType=VARCHAR}
+    </if>
+    <if test="messageType != null">
+    	and message_type = #{messageType,jdbcType=VARCHAR}
+    </if>
+    <if test="limit != null">
+    	limit #{limit,jdbcType=INTEGER}
+    </if>
+  </select>
+</mapper>
